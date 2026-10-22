@@ -11,6 +11,7 @@ npm run dev
 
 Open the URL printed by Vite (usually `http://localhost:5173`) in a modern browser and allow microphone access. Don’t open `index.html` directly or serve the source folder using a static-only server: Vite is needed to bundle and resolve the JavaScript packages. `getUserMedia` requires localhost or HTTPS.
 
+
 The first run downloads the quantized model files from Hugging Face in the browser. Speech transcription and synthesis happen on-device with WebAssembly; subsequent model use can benefit from the browser cache. No speech inference API is used.
 
 ## Hermes Agent details
