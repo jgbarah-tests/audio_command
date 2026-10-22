@@ -1,0 +1,20 @@
+{
+  "name": "local-audio-command",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "start": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.7.2",
+    "aframe": "^1.7.1",
+    "kokoro-js": "^1.2.1"
+  },
+  "devDependencies": {
+    "vite": "^6.1.0"
+  }
+}

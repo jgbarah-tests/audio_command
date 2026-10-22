@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f5f1" />
+    <title>Local Voice</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="voice-card" aria-labelledby="page-title">
+        <p class="eyebrow">PRIVATE BY DESIGN</p>
+        <h1 id="page-title">Local Voice</h1>
+        <p class="intro">Speak naturally. Your words are transcribed and spoken back right here in your browser.</p>
+
+        <button id="record-button" class="record-button" type="button" aria-pressed="false">
+          <span class="record-icon" aria-hidden="true"></span>
+          <span id="button-label">Start listening</span>
+        </button>
+
+        <p id="status" class="status" role="status" aria-live="polite">Ready when you are.</p>
+
+        <div class="transcript-wrap">
+          <label for="transcript">Your transcript</label>
+          <textarea id="transcript" rows="5" placeholder="Your words will appear here…" readonly></textarea>
+        </div>
+
+        <audio id="audio-player" controls hidden></audio>
+        <p class="model-note">Whisper Base · Kokoro-82M · runs locally in this browser</p>
+      </section>
+
+      <section class="hermes-card" aria-labelledby="hermes-title">
+        <div class="hermes-heading">
+          <div>
+            <p class="eyebrow">CONNECTED SERVICE</p>
+            <h2 id="hermes-title">Hermes Agent</h2>
+          </div>
+          <span id="hermes-indicator" class="service-indicator is-loading" aria-hidden="true"></span>
+        </div>
+        <form id="hermes-key-form" class="hermes-key-form">
+          <label for="hermes-key">Gateway API key</label>
+          <div class="hermes-key-controls">
+            <input id="hermes-key" name="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your API key" aria-describedby="hermes-key-help" />
+            <button class="refresh-button" type="submit">Save &amp; check</button>
+            <button id="hermes-forget" class="refresh-button secondary-button" type="button" hidden>Forget key</button>
+          </div>
+          <p id="hermes-key-help" class="hermes-key-help">Saved in this browser’s local storage for future visits. The key is sent directly to the Hermes gateway when you check status.</p>
+        </form>
+        <dl class="hermes-details">
+          <div><dt>Status</dt><dd id="hermes-status">Checking…</dd></div>
+          <div><dt>Platform</dt><dd id="hermes-platform">—</dd></div>
+          <div><dt>Version</dt><dd id="hermes-version">—</dd></div>
+          <div><dt>Model</dt><dd id="hermes-model">—</dd></div>
+          <div><dt>Model owner</dt><dd id="hermes-owner">—</dd></div>
+          <div><dt>Model created</dt><dd id="hermes-model-created">—</dd></div>
+          <div><dt>Active provider / model</dt><dd id="hermes-current-model">—</dd></div>
+          <div><dt>Gateway</dt><dd id="hermes-gateway-state">—</dd></div>
+          <div><dt>Runtime</dt><dd id="hermes-runtime">—</dd></div>
+          <div><dt>Readiness checks</dt><dd id="hermes-readiness">—</dd></div>
+          <div><dt>Connected platforms</dt><dd id="hermes-platforms">—</dd></div>
+          <div><dt>Active agents / runs</dt><dd id="hermes-activity">—</dd></div>
+          <div><dt>Background queues</dt><dd id="hermes-queues">—</dd></div>
+          <div><dt>Disk used / free</dt><dd id="hermes-disk">—</dd></div>
+          <div><dt>Today: requests / messages</dt><dd id="hermes-requests">—</dd></div>
+          <div><dt>Today: tokens / p95</dt><dd id="hermes-tokens">—</dd></div>
+          <div><dt>Last heartbeat</dt><dd id="hermes-heartbeat">—</dd></div>
+        </dl>
+        <div class="hermes-list-section">
+          <h3>Enabled toolsets</h3>
+          <div id="hermes-toolsets" class="hermes-chips"><span class="hermes-empty">—</span></div>
+        </div>
+        <div class="hermes-list-section">
+          <h3>API capabilities</h3>
+          <div id="hermes-capabilities" class="hermes-chips"><span class="hermes-empty">—</span></div>
+        </div>
+        <div class="hermes-session-summary" aria-labelledby="hermes-session-title">
+          <div class="hermes-session-heading">
+            <h3 id="hermes-session-title">Session activity</h3>
+            <span id="hermes-session-window" class="session-window">Waiting for data</span>
+          </div>
+          <dl class="hermes-session-stats">
+            <div><dt>Sessions</dt><dd id="hermes-session-count">—</dd></div>
+            <div><dt>Active</dt><dd id="hermes-session-active">—</dd></div>
+            <div><dt>Messages</dt><dd id="hermes-session-messages">—</dd></div>
+            <div><dt>Tool calls</dt><dd id="hermes-session-tools">—</dd></div>
+            <div><dt>Input tokens</dt><dd id="hermes-session-input-tokens">—</dd></div>
+            <div><dt>Output tokens</dt><dd id="hermes-session-output-tokens">—</dd></div>
+          </dl>
+          <div class="hermes-list-section">
+            <h3>Session sources</h3>
+            <div id="hermes-session-sources" class="hermes-chips"><span class="hermes-empty">—</span></div>
+          </div>
+          <p class="session-privacy-note">Summary uses session metadata only; titles, previews, and message contents are not displayed.</p>
+        </div>
+        <p id="hermes-note" class="hermes-note" role="status" aria-live="polite">Fetching public health information…</p>
+        <button id="hermes-refresh" class="refresh-button" type="button">Refresh status</button>
+      </section>
+    </main>
+    <section class="timeline-section" aria-labelledby="timeline-title">
+      <div class="timeline-heading">
+        <div>
+          <p class="eyebrow">MESSAGE ACTIVITY</p>
+          <h2 id="timeline-title">Session timeline</h2>
+          <p class="timeline-intro">Message timestamps grouped into activity periods. Select a point to inspect that moment.</p>
+        </div>
+        <button id="timeline-refresh" class="refresh-button" type="button">Load timeline</button>
+      </div>
+      <p id="timeline-status" class="timeline-status" role="status" aria-live="polite">Enter your gateway key to load session activity.</p>
+      <div id="timeline-scroll" class="timeline-scroll" tabindex="0" aria-label="Scrollable session activity chart" hidden>
+        <svg id="timeline-chart" class="timeline-chart" role="img" aria-label="Gantt-style chart of session activity over time"></svg>
+      </div>
+      <section id="timeline-detail" class="timeline-detail" aria-live="polite" hidden>
+        <div class="timeline-detail-heading">
+          <div>
+            <p class="eyebrow">SELECTED ACTIVITY</p>
+            <h3 id="timeline-detail-title">Choose a point on the timeline</h3>
+          </div>
+          <button id="timeline-detail-close" class="refresh-button secondary-button" type="button">Close</button>
+        </div>
+        <p id="timeline-detail-meta" class="timeline-detail-meta"></p>
+        <ol id="timeline-messages" class="timeline-messages"></ol>
+      </section>
+      <p class="timeline-privacy-note">The API includes message text with timestamp records; the page discards it while drawing the chart. Text is shown only after you select a chart point. Activity bars are estimated by grouping messages less than 15 minutes apart.</p>
+      <button id="xr-open" class="xr-open-button" type="button">Open 3D / XR timeline</button>
+    </section>
+    <dialog id="activity-dialog" class="activity-dialog" aria-labelledby="activity-dialog-title">
+      <div class="activity-dialog-heading">
+        <div>
+          <p class="eyebrow">SESSION ACTIVITY</p>
+          <h2 id="activity-dialog-title">Activity details</h2>
+          <p id="activity-dialog-meta" class="timeline-detail-meta"></p>
+        </div>
+        <button id="activity-dialog-close" class="refresh-button secondary-button" type="button">Close</button>
+      </div>
+      <div id="activity-dialog-summary" class="hermes-chips"></div>
+      <div class="activity-track-section">
+        <p class="activity-track-help">Each colored marker is an event timestamp. Click the track to expand all event details, then click again to collapse them.</p>
+        <button id="activity-track-toggle" class="activity-track-toggle" type="button" aria-expanded="false" aria-controls="activity-dialog-events">
+          <svg id="activity-track" class="activity-track" viewBox="0 0 1000 78" role="img" aria-label="Color-coded event timeline"></svg>
+        </button>
+        <div id="activity-track-legend" class="activity-track-legend" aria-label="Activity type legend"></div>
+      </div>
+      <ol id="activity-dialog-events" class="timeline-messages activity-dialog-events"></ol>
+      <p class="timeline-privacy-note">Marker positions show message timestamps, not measured activity duration. Reasoning, tool arguments, and results may contain sensitive content; each can also be expanded individually.</p>
+    </dialog>
+    <section id="xr-viewer" class="xr-viewer" aria-label="3D and XR session timeline" hidden>
+      <div class="xr-toolbar">
+        <div>
+          <strong>Hermes activity · 3D / XR</strong>
+          <span id="xr-status">Select a session bar to inspect its activity.</span>
+        </div>
+        <button id="xr-close" class="refresh-button" type="button">Close 3D view</button>
+      </div>
+      <div id="xr-scene-host" class="xr-scene-host"></div>
+      <div class="xr-help">Spatial view: session rails run left-to-right and time moves front-to-back. Select raised cylinder periods; XR: enter VR, point and click with a controller.</div>
+    </section>
+    <aside id="startup-help" class="startup-help" hidden role="alert">
+      This app needs Vite to resolve its browser packages. In this project folder, run
+      <code>npm run dev</code>, then open the URL printed by Vite (usually
+      <code>http://localhost:5173</code>). Don’t open <code>index.html</code> directly or serve
+      this source folder with a static-only server.
+    </aside>
+    <script>
+      window.setTimeout(() => {
+        if (!window.localVoiceReady) {
+          document.querySelector('#startup-help').hidden = false;
+        }
+      }, 1500);
+    </script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
